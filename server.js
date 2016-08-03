@@ -2,24 +2,23 @@ var express = require('express');
 var app = express();
 var PORT = 3000; 
 
-// route level middleware - applies to SOME routes
-
 var middleware = {
   requireAuthentication: function (req, res, next) {
-      console.log('private route hit!'); // prints only when route input into browser
+      console.log('private route hit!');
       next();
   },
+    // add log with date (time) + request method
     logger: function (req, res, next) {
-        console.log('Request: ' + req.method + '' + req.originalUrl);  // prints out http method, e.g. get + route, so get/index.html or get/about - so shows which requests are being made to the server
+        console.log('Request: ' + new Date().toString() + '' + req.method + '' + req.originalUrl);  
         next();
     }
 };
 
 app.use(middleware.logger);
 
-//app.use(middleware.requireAuthentication); //.use is a way of calling middleware, order is important here, this must be BEFORE other routes
+//app.use(middleware.requireAuthentication); // to ensure used for ALL routes, or include in about, see below, to use for ABOUT route only
 
-app.get('/about', middleware.requireAuthentication, function (request, response) { // adds route-level middleware as requireAuthentication is only called when about route is put in browser
+app.get('/about', middleware.requireAuthentication, function (request, response) { 
     response.send('About us');  
 });
 
