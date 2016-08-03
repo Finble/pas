@@ -1,12 +1,19 @@
 var express = require('express');
 var app = express();
-
-app.get('/', function (request, response) {  // '/' root URL  get = http method, so getting info via request, with a response back from get
-    response.send('Hello Express!');  // response.send can send string back
-});
+var PORT = 3000;   // capital letters = constant, value should NOT change
+    
+//app.get('/', function (request, response) {  
+//    response.send('Hello Express!');  
+//});  // by deleting this, there is no root file route, which means index.html will act as default (always), so without a '/' route being set up, then index.html will auto be called (so do not need to put index.html into browser, localhost:3000 only will show index.html automatically)
 
 app.get('/about', function (request, response) {
-    response.send('About us');  // response.send can send string back
+    response.send('About us');  
 });
 
-app.listen(3000); // specifies port to be listened on
+app.use(express.static(__dirname + '/public')); // shows website inside of node.js app - run localhost:3000/index.html in browser, and it will print out whatever is in index.html file, e.g. Hello Express.js
+
+//console.log(__dirname);
+
+app.listen(PORT, function () {
+    console.log('Express server started on port ' + PORT); // add this to signal (in terminal) that server is up and ready vs node server.js and prompt is empty (in terminal)
+}); 
