@@ -2,21 +2,9 @@ var express = require('express');
 var app = express();
 var PORT = 3000; 
 
-var middleware = {
-  requireAuthentication: function (req, res, next) {
-      console.log('private route hit!');
-      next();
-  },
-    // add log with date (time) + request method
-    logger: function (req, res, next) {
-        console.log('Request: ' + new Date().toString() + '' + req.method + '' + req.originalUrl);  
-        next();
-    }
-};
+var middleware = require('./middleware.js');
 
 app.use(middleware.logger);
-
-//app.use(middleware.requireAuthentication); // to ensure used for ALL routes, or include in about, see below, to use for ABOUT route only
 
 app.get('/about', middleware.requireAuthentication, function (request, response) { 
     response.send('About us');  
